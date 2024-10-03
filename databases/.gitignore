@@ -1,0 +1,6 @@
+# folders db
+db_mongo
+db_mysql
+db_pgdata
+
+.env
