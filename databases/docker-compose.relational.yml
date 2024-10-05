@@ -1,0 +1,123 @@
+name: db_relational
+# docker-compose -f docker-compose.relational.yml up -d dbmysql
+# docker-compose -f docker-compose.relational.yml up -d dbpostgres
+# docker-compose -f docker-compose.relational.yml up -d dbsqlserver17
+# docker-compose -f docker-compose.relational.yml up -d dbsqlserver19
+# docker-compose -f docker-compose.relational.yml up -d dboracle19
+services:
+#### MYSQL
+  dbmysql:
+    image: mysql:8.3.0
+    container_name: ${ALIAS}_mysql
+    env_file: .env
+    tty: true
+    ports:
+      - "3307:3306"
+    # restart: always
+    volumes:
+      - ./${ALIAS}_mysql:/var/lib/mysql
+    environment:
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MYSQL_USER: ${DATABASE_USER}
+    network_mode: "databases"
+
+#### POSTGRESQL
+  dbpostgres:
+    image: postgres:15
+    container_name: ${ALIAS}_postgres
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      # - POSTGRES_DB=mydb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./${ALIAS}_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    # restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    network_mode: "databases"
+
+#### MSSQL 2017
+  # docker pull mcr.microsoft.com/mssql/server:2017-latest
+  dbsqlserver17:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: ${ALIAS}_sqlserver17
+    hostname: mssql17
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      ACCEPT_EULA: ${ACCEPT_EULA}
+    volumes:
+      - ./${ALIAS}_sqlserverdata17:/var/opt/mssql/data
+    ports:
+      - "1434:1433"
+    # restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    network_mode: "databases"
+
+#### MSSQL 2019
+  # docker pull mcr.microsoft.com/mssql/server:2019-latest
+  dbsqlserver19:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: ${ALIAS}_sqlserver19
+    hostname: mssql17
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      ACCEPT_EULA: ${ACCEPT_EULA}
+    volumes:
+      - ./${ALIAS}_sqlserverdata19:/var/opt/mssql/data
+    ports:
+      - "1434:1433"
+    # restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    network_mode: "databases"
+
+# Restaurar backup.bk en SQL Server
+# docker cp E:\tmp\docker\backup.bk bbd027d089d6:/var/opt/mssql/data
+
+#### Oracle 19c Enterprise Edition
+  # docker pull oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
+  dboracle19:
+    image: oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee    # Es la imagen oficial de Oracle Database Enterprise Edition versión 19c.
+    container_name: ${ALIAS}_oracle
+    environment:
+      ORACLE_PWD: ${ORACLE_PWD}   # Establece la contraseña para el usuario SYS y SYSTEM
+      ORACLE_SID: ${ORACLE_SID}   # El SID de la base de datos.
+      ORACLE_PDB: ${ORACLE_PDB}   # El nombre de la base de datos PDB (opcional).
+      ORACLE_CHARACTERSET: ${ORACLE_CHARACTERSET}   # Conjunto de caracteres a utilizar en la base de datos.
+    volumes:
+      - ./${ALIAS}_oracledata:/opt/oracle/oradata
+    ports:
+      - "1521:1521"  # Puerto para Oracle Database
+      # - "5500:5500"  # Puerto para Enterprise Manager (opcional)
+    # restart: always
+    network_mode: "databases"
+
+    ################ Conexión a la base de datos ################
+    #############################################################
+    ######## Puedes conectarte a Oracle con los siguientes detalles:
+    ######## Host: localhost
+    ######## Puerto: 1521
+    ######## SID: ORCL
+    ######## Usuario: SYS o SYSTEM
+    ######## Contraseña: La que definiste en ORACLE_PWD

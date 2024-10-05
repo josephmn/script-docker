@@ -1,0 +1,25 @@
+name: db_norelational
+# docker-compose -f docker-compose.norelational.yml up -d dbmongo
+services:
+#### MONGO DB
+  dbmongo:  # nombre para ejecucion -> docker-compose up -d dbmongo
+    image: mongo:5.0  # nombre de la imagen:version
+    container_name: ${ALIAS}_mongo   # nombre que tendra dentro del contendor
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - ./${ALIAS}_mongo:/data/db   # aqui se guarda en la ruta raiz del archivo en la carpeta: ./db_mongo
+    # restart: always
+    logging:  # control de log para guardar
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    network_mode: "databases"
+# volumes:
+#   mongo_data:
+# networks:
+#   - databases
