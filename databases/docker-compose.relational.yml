@@ -12,7 +12,7 @@ services:
     env_file: .env
     tty: true
     ports:
-      - "3307:3306"
+      - "3306:3306"
     # restart: always
     volumes:
       - ./${ALIAS}_mysql:/var/lib/mysql
@@ -41,7 +41,7 @@ services:
     volumes:
       - ./${ALIAS}_pgdata:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5432:5432"
     # restart: always
     logging:
       driver: "json-file"
