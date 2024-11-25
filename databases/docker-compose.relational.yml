@@ -1,4 +1,7 @@
 name: db_relational
+
+# docker network create --attachable databases
+
 # docker-compose -f docker-compose.relational.yml up -d dbmysql
 # docker-compose -f docker-compose.relational.yml up -d dbpostgres
 # docker-compose -f docker-compose.relational.yml up -d dbsqlserver17

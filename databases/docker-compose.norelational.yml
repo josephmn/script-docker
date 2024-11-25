@@ -1,5 +1,9 @@
 name: db_norelational
+
+# docker network create --attachable non-relational
+
 # docker-compose -f docker-compose.norelational.yml up -d dbmongo
+# docker-compose -f docker-compose.norelational.yml up -d dbredis
 services:
 #### MONGO DB
   dbmongo:  # nombre para ejecucion -> docker-compose up -d dbmongo
@@ -23,3 +27,16 @@ services:
 #   mongo_data:
 # networks:
 #   - databases
+
+#### CACHE REDIS
+  dbredis:
+    image: redis:7.4.1
+    container_name: ${ALIAS}_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf # Monta tu archivo de configuración
+      - ./${ALIAS}_mongo:/data/db # Volumen para persistir datos
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"] # Usa el archivo de configuración personalizado
+    restart: unless-stopped
+    network_mode: "non-relational"
