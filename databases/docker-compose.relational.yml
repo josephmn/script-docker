@@ -12,7 +12,7 @@ services:
   dbmysql:
     image: mysql:8.3.0
     container_name: ${ALIAS}_mysql
-    env_file: .env
+    # env_file: .env
     tty: true
     ports:
       - "3306:3306"

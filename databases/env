@@ -1,0 +1,30 @@
+##########################################
+# ejemplo renombrar y debe quedar -> .env
+##########################################
+
+ALIAS=db
+
+#### MONGO DB
+MONGO_INITDB_ROOT_USERNAME=root
+MONGO_INITDB_ROOT_PASSWORD=tu_clave
+
+#### MYSQL
+# DATABASE_NAME=wordpress
+DATABASE_USER=user
+DATABASE_PASSWORD=tu_clave
+DATABASE_ROOT_PASSWORD=tu_password_root
+
+#### POSTGRESQL
+# POSTGRES_DB=dbapp
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=tu_clave
+
+#### MSSQL SERVER
+SA_PASSWORD=tu_clave
+ACCEPT_EULA=Y
+
+#### ORACLE 19C
+ORACLE_PWD=tu_clave
+ORACLE_SID=ORCL
+ORACLE_PDB=ORCLPDB1
+ORACLE_CHARACTERSET=AL32UTF8
