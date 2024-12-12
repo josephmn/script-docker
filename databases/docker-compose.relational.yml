@@ -12,7 +12,8 @@ services:
   dbmysql:
     image: mysql:8.3.0
     container_name: ${ALIAS}_mysql
-    # env_file: .env
+    env_file:
+      - .env
     tty: true
     ports:
       - "3306:3306"
@@ -29,6 +30,8 @@ services:
   dbpostgres:
     image: postgres:15
     container_name: ${ALIAS}_postgres
+    env_file:
+      - .env
     # set shared memory limit when using docker-compose
     shm_size: 128mb
     # or set shared memory limit when deploy via swarm stack
@@ -58,6 +61,8 @@ services:
   dbsqlserver17:
     image: mcr.microsoft.com/mssql/server:2017-latest
     container_name: ${ALIAS}_sqlserver17
+    env_file:
+      - .env
     hostname: mssql17
     environment:
       SA_PASSWORD: ${SA_PASSWORD}
@@ -79,6 +84,8 @@ services:
   dbsqlserver19:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: ${ALIAS}_sqlserver19
+    env_file:
+      - .env
     hostname: mssql17
     environment:
       SA_PASSWORD: ${SA_PASSWORD}
@@ -103,6 +110,8 @@ services:
   dboracle19:
     image: oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee    # Es la imagen oficial de Oracle Database Enterprise Edition versión 19c.
     container_name: ${ALIAS}_oracle
+    env_file:
+      - .env
     environment:
       ORACLE_PWD: ${ORACLE_PWD}   # Establece la contraseña para el usuario SYS y SYSTEM
       ORACLE_SID: ${ORACLE_SID}   # El SID de la base de datos.
