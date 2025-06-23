@@ -3,4 +3,4 @@ db*
 redis.config/
 
 # variable de entorno
-.env
+*.env
