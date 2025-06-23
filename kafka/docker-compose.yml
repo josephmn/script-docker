@@ -1,5 +1,6 @@
 name: confluent_kafka
 
+# Este es el que uso
 # crear previamente el network: kafka-confluent
 # docker network create --attachable kafka-confluent
 
