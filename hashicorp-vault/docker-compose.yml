@@ -4,17 +4,40 @@ name: hcd
 
 services:
   vault:
-    image: hashicorp/vault:1.18.2
-    container_name: vault
+    image: hashicorp/vault:1.20.2
+    container_name: vault-server
+    cap_add:
+      - IPC_LOCK
     ports:
       - "8200:8200"
     environment:
-      - VAULT_ADDR=http://0.0.0.0:8200
-      - VAULT_CONFIG_DIR=/vault/config
+      VAULT_ADDR: http://0.0.0.0:8200
+      VAULT_UI: "true"
+      # VAULT_DEV_ROOT_TOKEN_ID: "00000000-0000-0000-0000-000000000000"
     # restart: unless-stopped
     volumes:
-      - ./vault-config:/vault/config
+      - vault-data:/vault/file
+      - ./config:/etc/vault/config
+    # command: vault server -dev -dev-listen-address=0.0.0.0:8200 -dev-root-token-id=00000000-0000-0000-0000-000000000000
+    command: server -config=/etc/vault/config
+    network_mode: "azure-net-dev"
+
+  vault-agent:
+    image: hashicorp/vault:1.20.2
+    container_name: vault-agent 
     cap_add:
       - IPC_LOCK
-    network_mode: "databases"
-    command: vault server -config=/vault/config/vault.hcl
+    command: agent -config=/etc/vault/config/vault-agent.hcl
+    volumes:
+      # - C:/documentos/D/CURSOS/Lenguajes/Docker/script-docker/hashicorp-vault/vault-token:/vault/token
+      - ./vault-token:/vault/token
+      - ./config:/etc/vault/config                # aquí está tu vault-agent.hcl
+      - ./role_id:/etc/vault/role_id              # tendrás que crear este archivo en el host
+      - ./secret_id:/etc/vault/secret_id          # y este también
+    depends_on:
+      - vault
+    network_mode: "azure-net-dev"
+
+volumes:
+  vault-data:
+  # vault-token:

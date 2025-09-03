@@ -1,6 +1,10 @@
 # folders db
 db*
+vault-data/
 redis.config/
+role_id
+secret_id
+.vault-token
 
 # variable de entorno
 *.env
