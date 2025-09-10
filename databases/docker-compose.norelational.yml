@@ -4,6 +4,7 @@ name: db_norelational
 
 # docker-compose -f docker-compose.norelational.yml up -d dbmongo
 # docker-compose -f docker-compose.norelational.yml up -d dbredis
+# docker-compose -f docker-compose.norelational.yml up -d dbdynamodb
 services:
 #### MONGO DB
   dbmongo:  # nombre para ejecucion -> docker-compose up -d dbmongo
@@ -38,5 +39,5 @@ services:
       - ./redis.config:/usr/local/etc/redis/redis.conf # Monta tu archivo de configuración
       - ./${ALIAS}_redis:/data/db # Volumen para persistir datos
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"] # Usa el archivo de configuración personalizado
-    restart: unless-stopped
+    # restart: unless-stopped
     network_mode: "non-relational"

@@ -1,0 +1,32 @@
+name: db_dynamo
+
+# docker network create --attachable non-relational
+
+# docker-compose -f docker-compose.dynamo.yml up -d dbdynamodb
+# docker-compose -f docker-compose.dynamo.yml up -d dynamodb-admin
+services:
+
+#### DYNAMODB SERVER
+  dbdynamodb:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: amazon/dynamodb-local:3.0.0
+    container_name: ${ALIAS}_dynamodb
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./${ALIAS}_dynamodb:/home/dynamodblocal/data
+    # restart: unless-stopped
+    working_dir: /home/dynamodblocal
+    network_mode: "non-relational"
+
+#### DYNAMODB ADMIN
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin
+    container_name: ${ALIAS}_dynamodb_admin
+    ports:
+      - "8001:8001"
+    environment:
+      DYNAMO_ENDPOINT: http://db_dynamodb:8000
+    depends_on:
+      - dbdynamodb
+    network_mode: "non-relational"
