@@ -129,8 +129,12 @@ services:
     ################ Conexión a la base de datos ################
     #############################################################
     ######## Puedes conectarte a Oracle con los siguientes detalles:
-    ######## Host: localhost
-    ######## Puerto: 1521
-    ######## SID: ORCL
-    ######## Usuario: SYS o SYSTEM
-    ######## Contraseña: La que definiste en ORACLE_PWD
+
+    # Host: localhost o IP del servidor
+    # Port: 1521
+    # Service Name: ORCLPDB1 (no el SID)
+    # Username: system
+    # Password: Sgr9cl4v3s
+
+    #############################################################
+    #############################################################
