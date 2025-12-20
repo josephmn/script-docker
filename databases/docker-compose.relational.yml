@@ -94,7 +94,7 @@ services:
     volumes:
       - ./${ALIAS}_sqlserverdata19:/var/opt/mssql/data
     ports:
-      - "1434:1433"
+      - "1435:1433"
     # restart: always
     logging:
       driver: "json-file"
@@ -105,6 +105,29 @@ services:
 
 # Restaurar backup.bk en SQL Server
 # docker cp E:\tmp\docker\backup.bk bbd027d089d6:/var/opt/mssql/data
+
+#### MSSQL 2022
+  # docker pull mcr.microsoft.com/mssql/server:2019-latest
+  dbsqlserver22:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ${ALIAS}_sqlserver22
+    env_file:
+      - .env
+    hostname: mssql22
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      ACCEPT_EULA: ${ACCEPT_EULA}
+    volumes:
+      - ./${ALIAS}_sqlserverdata22:/var/opt/mssql/data
+    ports:
+      - "1436:1433"
+    # restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    network_mode: "databases"
 
 #### Oracle 19c Enterprise Edition
   # docker pull oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
