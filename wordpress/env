@@ -1,0 +1,6 @@
+CONTAINER_NAME=appwp
+
+DATABASE_NAME=wordpress
+DATABASE_USER=tu_user
+DATABASE_PASSWORD=tu_password
+DATABASE_ROOT_PASSWORD=tu_password
