@@ -161,3 +161,8 @@ services:
 
     #############################################################
     #############################################################
+
+    # Para habilitar el sqlagente para Job
+    # Conectarse a docker: docker exec -it db_sqlserver17 /bin/bash
+    # luego ejecutar el siguiente comando dentro del contenedor para habilitar el SQL Agent: sudo /opt/mssql/bin/mssql-conf set sqlagent.enabled true
+    # Por ultimo, reiniciar el contenedor para aplicar los cambios: docker restart dbsqlserver17
